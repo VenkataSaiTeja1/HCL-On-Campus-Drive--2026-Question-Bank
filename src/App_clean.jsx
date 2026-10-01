@@ -677,117 +677,60 @@ const saveState = (state) => {
 
 const LETTERS = ["a", "b", "c", "d"];
 
-
 /* ---------- Styles ---------- */
 const CSS = `
-:root{--bg:#f0f4ff;--card:#ffffff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
-  --brand:#6366f1;--brand2:#8b5cf6;--brand-soft:#eef2ff;
-  --ok:#059669;--ok-soft:#d1fae5;--bad:#ef4444;--bad-soft:#fee2e2;
-  --warn:#f59e0b;--code:#0f172a;
-  --quant:#f97316;--reasoning:#06b6d4;--verbal:#10b981;--technical:#8b5cf6;--coding:#ec4899;}
-.hq{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
-.hq *{box-sizing:border-box;margin:0;padding:0;}
-.hq-banner{background:linear-gradient(135deg,#4338ca 0%,#7c3aed 45%,#c026d3 100%);padding:28px 20px 24px;position:relative;overflow:hidden;}
-.hq-banner::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:rgba(255,255,255,0.07);border-radius:50%;pointer-events:none;}
-.hq-banner::before{content:'';position:absolute;bottom:-40px;left:100px;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;pointer-events:none;}
-.hq-banner-inner{max-width:980px;margin:0 auto;position:relative;z-index:1;}
-.hq-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;}
-.hq-title{font-size:26px;font-weight:900;color:#fff;line-height:1.2;letter-spacing:-0.02em;text-shadow:0 2px 12px rgba(0,0,0,0.18);}
-.hq-sub{color:rgba(255,255,255,0.78);font-size:14px;margin-top:7px;}
-.hq-overall{min-width:220px;}
-.hq-bar{height:10px;background:rgba(255,255,255,0.2);border-radius:99px;overflow:hidden;margin-bottom:5px;}
-.hq-bar>div{height:100%;background:linear-gradient(90deg,#34d399,#6ee7b7,#a7f3d0);border-radius:99px;transition:width .5s ease;}
-.hq-small{font-size:12px;color:rgba(255,255,255,0.72);font-weight:500;}
-.hq-tabs-wrap{background:#fff;border-bottom:2px solid var(--line);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
-.hq-tabs{display:flex;gap:0;overflow-x:auto;max-width:980px;margin:0 auto;padding:0 8px;scrollbar-width:none;}
-.hq-tabs::-webkit-scrollbar{display:none;}
-.hq-tab{border:none;background:none;padding:13px 15px;cursor:pointer;font-size:13.5px;font-weight:600;white-space:nowrap;color:var(--muted);border-bottom:3px solid transparent;transition:color .2s,border-color .2s;display:flex;align-items:center;gap:6px;}
-.hq-tab:hover{color:var(--ink);}
-.hq-tab.on-quant{color:var(--quant);border-bottom-color:var(--quant);}
-.hq-tab.on-reasoning{color:var(--reasoning);border-bottom-color:var(--reasoning);}
-.hq-tab.on-verbal{color:var(--verbal);border-bottom-color:var(--verbal);}
-.hq-tab.on-technical{color:var(--technical);border-bottom-color:var(--technical);}
-.hq-tab.on-coding{color:var(--coding);border-bottom-color:var(--coding);}
-.hq-tab .ct{font-size:11px;background:var(--line);border-radius:99px;padding:1px 8px;font-weight:700;color:var(--muted);transition:all .2s;}
-.hq-tab.on-quant .ct{background:#fff3e0;color:var(--quant);}
-.hq-tab.on-reasoning .ct{background:#e0f7fa;color:var(--reasoning);}
-.hq-tab.on-verbal .ct{background:#e0f2f1;color:var(--verbal);}
-.hq-tab.on-technical .ct{background:#f3e8ff;color:var(--technical);}
-.hq-tab.on-coding .ct{background:#fce4ec;color:var(--coding);}
-.tab-icon{font-size:15px;}
-.hq-wrap{max-width:980px;margin:0 auto;padding:20px 16px 64px;}
-.hq-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-.hq-stat{background:var(--card);border-radius:16px;padding:18px 16px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06);position:relative;overflow:hidden;}
-.hq-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;}
-.hq-stat:nth-child(1)::before{background:linear-gradient(90deg,#6366f1,#8b5cf6);}
-.hq-stat:nth-child(2)::before{background:linear-gradient(90deg,#06b6d4,#0ea5e9);}
-.hq-stat:nth-child(3)::before{background:linear-gradient(90deg,#10b981,#34d399);}
-.hq-stat:nth-child(4)::before{background:linear-gradient(90deg,#f59e0b,#f97316);}
-.hq-stat b{display:block;font-size:30px;font-weight:900;letter-spacing:-0.03em;margin-bottom:3px;}
-.hq-stat span{font-size:12px;color:var(--muted);font-weight:500;}
-.hq-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;background:var(--card);border-radius:16px;padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.hq-tools input,.hq-tools select{border:1.5px solid var(--line);background:#f8fafc;border-radius:10px;padding:9px 12px;font-size:14px;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;}
-.hq-tools input:focus,.hq-tools select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(99,102,241,0.12);}
-.hq-tools input{flex:1;min-width:180px;}
-.hq-tools select{cursor:pointer;}
-.hq-btn{border:1.5px solid var(--line);background:#f8fafc;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
-.hq-btn:hover{border-color:#ef4444;color:#ef4444;background:#fff5f5;}
-.hq-btn.pri{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;box-shadow:0 4px 14px rgba(99,102,241,0.35);}
-.hq-btn.pri:hover{box-shadow:0 6px 20px rgba(99,102,241,0.5);transform:translateY(-1px);}
-.hq-tip{background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:14px 16px 14px 44px;font-size:14px;margin-bottom:14px;line-height:1.65;position:relative;}
-.hq-tip::before{content:"💡";position:absolute;left:14px;top:14px;font-size:18px;}
-.hq-card{background:var(--card);border-radius:18px;padding:22px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);border:1.5px solid var(--line);transition:box-shadow .25s,border-color .25s,transform .15s;}
-.hq-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:#c7d2fe;transform:translateY(-2px);}
-.hq-card[data-section="quant"]{border-top:4px solid var(--quant);}
-.hq-card[data-section="reasoning"]{border-top:4px solid var(--reasoning);}
-.hq-card[data-section="verbal"]{border-top:4px solid var(--verbal);}
-.hq-card[data-section="technical"]{border-top:4px solid var(--technical);}
-.hq-card[data-section="coding"]{border-top:4px solid var(--coding);}
-.hq-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-.hq-id{font-weight:800;font-size:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-radius:8px;padding:3px 10px;letter-spacing:.03em;}
-.hq-chip{font-size:11px;font-weight:700;border-radius:99px;padding:3px 11px;color:#fff;}
-.hq-chip-topic{background:linear-gradient(135deg,#64748b,#94a3b8);}
-.hq-chip-correct{background:linear-gradient(135deg,#059669,#10b981);}
-.hq-chip-wrong{background:linear-gradient(135deg,#ef4444,#f87171);}
-.hq-chip-solved{background:linear-gradient(135deg,#059669,#10b981);}
-.hq-star{margin-left:auto;background:none;border:none;font-size:22px;cursor:pointer;color:#cbd5e1;transition:color .2s,transform .15s;}
-.hq-star:hover{color:#fbbf24;transform:scale(1.25);}
-.hq-star.on{color:#f59e0b;}
-.hq-q{font-size:15.5px;line-height:1.7;white-space:pre-line;margin-bottom:14px;color:var(--ink);font-weight:500;}
-.hq-ctx{background:linear-gradient(135deg,#f8fafc,#f0f4ff);border:1.5px dashed #94a3b8;border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.65;color:#475569;margin-bottom:14px;white-space:pre-wrap;font-style:italic;}
-.hq-pre{background:linear-gradient(160deg,#0f172a,#1e293b);color:#e2e8f0;border-radius:12px;padding:16px;font-size:13px;line-height:1.65;overflow-x:auto;margin-bottom:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border:1px solid #334155;}
-.hq-opts{display:grid;gap:10px;}
-.hq-opt{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:#f8fafc;border-radius:12px;padding:12px 14px;font-size:14px;cursor:pointer;color:var(--ink);line-height:1.5;transition:all .2s;font-weight:500;}
-.hq-opt:hover:not(:disabled){border-color:#6366f1;background:#eef2ff;transform:translateX(5px);}
-.hq-opt:disabled{cursor:default;}
-.hq-opt .lt{font-weight:800;color:#6366f1;min-width:22px;font-size:12px;background:#eef2ff;border-radius:6px;padding:2px 7px;text-align:center;flex-shrink:0;}
-.hq-opt.ok{border-color:var(--ok);background:var(--ok-soft);}
-.hq-opt.ok .lt{background:var(--ok);color:#fff;}
-.hq-opt.bad{border-color:var(--bad);background:var(--bad-soft);}
-.hq-opt.bad .lt{background:var(--bad);color:#fff;}
-.hq-sol{margin-top:14px;border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65;background:#f8fafc;border-left:4px solid #94a3b8;}
-.hq-sol.ok{border-left-color:var(--ok);background:var(--ok-soft);}
-.hq-sol.bad{border-left-color:var(--bad);background:var(--bad-soft);}
-.hq-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center;}
-.hq-empty{text-align:center;padding:64px 0;color:var(--muted);}
-.hq-empty-icon{font-size:48px;display:block;margin-bottom:12px;}
-.hq-empty-msg{font-size:16px;font-weight:500;}
-.hq-h3{font-size:17px;font-weight:700;margin-bottom:9px;color:var(--ink);}
-.hq-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:16px 0 7px;display:flex;align-items:center;gap:8px;}
-.hq-label::after{content:"";flex:1;height:1px;background:var(--line);}
-.hq-check{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;font-weight:500;color:var(--ink);}
-.hq-check input{width:16px;height:16px;accent-color:var(--ok);cursor:pointer;}
-@media(max-width:640px){.hq-stats{grid-template-columns:repeat(2,1fr);}.hq-title{font-size:20px;}.hq-stat b{font-size:24px;}.hq-card{padding:16px;}}
+.hq{--bg:#f6f7fb;--card:#fff;--ink:#1d2433;--muted:#5f6b7f;--line:#e3e7ef;--brand:#0f5bd8;--brand-soft:#e8f0fe;--ok:#12805c;--ok-soft:#e3f5ee;--bad:#c4321f;--bad-soft:#fdecea;--warn:#a86a00;--code:#0f172a;
+font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.hq *{box-sizing:border-box}
+.hq-wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+.hq-head{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+.hq-title{font-size:22px;font-weight:700;margin:0}
+.hq-sub{color:var(--muted);font-size:14px;margin:4px 0 0}
+.hq-overall{min-width:220px}
+.hq-bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.hq-bar>div{height:100%;background:var(--brand);transition:width .3s}
+.hq-small{font-size:12px;color:var(--muted);margin-top:4px}
+.hq-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.hq-tab{border:1px solid var(--line);background:var(--card);padding:9px 14px;border-radius:10px;cursor:pointer;font-size:14px;white-space:nowrap;color:var(--ink)}
+.hq-tab.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.hq-tab .ct{opacity:.75;font-size:12px;margin-left:6px}
+.hq-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.hq-stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.hq-stat b{display:block;font-size:20px}
+.hq-stat span{font-size:12px;color:var(--muted)}
+.hq-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.hq-tools input,.hq-tools select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--ink)}
+.hq-tools input{flex:1;min-width:180px}
+.hq-btn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--ink)}
+.hq-btn:hover{border-color:var(--brand)}
+.hq-btn.pri{background:var(--brand);color:#fff;border-color:var(--brand)}
+.hq-tip{background:var(--brand-soft);border-left:4px solid var(--brand);border-radius:8px;padding:10px 12px;font-size:14px;margin-bottom:12px;line-height:1.5}
+.hq-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.hq-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.hq-id{font-weight:700;color:var(--brand)}
+.hq-chip{font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:2px 8px;color:var(--muted)}
+.hq-star{margin-left:auto;background:none;border:none;font-size:18px;cursor:pointer;color:#c0c6d2;line-height:1}
+.hq-star.on{color:#e6a700}
+.hq-q{font-size:15px;line-height:1.55;white-space:pre-line;margin:0 0 10px}
+.hq-ctx{background:#fafbfd;border:1px dashed var(--line);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.55;color:#33415a;margin-bottom:10px;white-space:pre-wrap}
+.hq-pre{background:var(--code);color:#e2e8f0;border-radius:8px;padding:12px;font-size:13px;line-height:1.5;overflow-x:auto;margin:0 0 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.hq-opts{display:grid;gap:8px}
+.hq-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:10px 12px;font-size:14px;cursor:pointer;color:var(--ink);line-height:1.45}
+.hq-opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-soft)}
+.hq-opt:disabled{cursor:default}
+.hq-opt .lt{font-weight:700;color:var(--muted);min-width:18px}
+.hq-opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.hq-opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.hq-sol{margin-top:10px;border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.55;background:#f3f6fa;border-left:4px solid var(--muted)}
+.hq-sol.ok{border-left-color:var(--ok)}
+.hq-sol.bad{border-left-color:var(--bad)}
+.hq-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hq-empty{text-align:center;color:var(--muted);padding:40px 0}
+.hq-h3{font-size:16px;margin:0 0 6px}
+.hq-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:10px 0 4px}
+.hq-check{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+@media (max-width:640px){.hq-stats{grid-template-columns:repeat(2,1fr)}.hq-title{font-size:19px}}
 `;
-
-/* ---------- Section icons ---------- */
-const SECTION_META = {
-  quant:     { icon: "🔢", color: "#f97316" },
-  reasoning: { icon: "🧩", color: "#06b6d4" },
-  verbal:    { icon: "📝", color: "#10b981" },
-  technical: { icon: "💻", color: "#8b5cf6" },
-  coding:    { icon: "⚡", color: "#ec4899" },
-};
 
 /* ---------- MCQ card ---------- */
 function McqCard({ item, chosen, revealed, starred, onChoose, onReveal, onStar, onRetry }) {
@@ -795,18 +738,12 @@ function McqCard({ item, chosen, revealed, starred, onChoose, onReveal, onStar, 
   const show = answered || revealed;
   const correct = answered && chosen === item.a;
   return (
-    <div className="hq-card" data-section={item.s}>
+    <div className="hq-card">
       <div className="hq-meta">
         <span className="hq-id">{item.id}</span>
-        <span className="hq-chip hq-chip-topic">{item.t}</span>
-        {answered && (
-          <span className={`hq-chip ${correct ? "hq-chip-correct" : "hq-chip-wrong"}`}>
-            {correct ? "✓ Correct" : "✗ Wrong"}
-          </span>
-        )}
-        <button className={`hq-star ${starred ? "on" : ""}`} onClick={onStar} title="Bookmark">
-          {starred ? "★" : "☆"}
-        </button>
+        <span className="hq-chip">{item.t}</span>
+        {answered && <span className="hq-chip" style={{ color: correct ? "var(--ok)" : "var(--bad)" }}>{correct ? "Correct" : "Wrong"}</span>}
+        <button className={`hq-star ${starred ? "on" : ""}`} onClick={onStar} title="Bookmark">★</button>
       </div>
       {item.ctx && <div className="hq-ctx">{CONTEXTS[item.ctx]}</div>}
       <p className="hq-q">{item.q}</p>
@@ -826,12 +763,12 @@ function McqCard({ item, chosen, revealed, starred, onChoose, onReveal, onStar, 
       </div>
       {show && (
         <div className={`hq-sol ${answered ? (correct ? "ok" : "bad") : ""}`}>
-          <strong>Answer: ({LETTERS[item.a]}) {item.o[item.a]}.</strong>{" "}{item.sol}
+          <strong>Answer: ({LETTERS[item.a]}) {item.o[item.a]}.</strong> {item.sol}
         </div>
       )}
       <div className="hq-actions">
-        {!show && <button className="hq-btn pri" onClick={onReveal}>💡 Show solution</button>}
-        {answered && <button className="hq-btn" onClick={onRetry}>🔄 Try again</button>}
+        {!show && <button className="hq-btn" onClick={onReveal}>Show solution</button>}
+        {answered && <button className="hq-btn" onClick={onRetry}>Try again</button>}
       </div>
     </div>
   );
@@ -840,26 +777,21 @@ function McqCard({ item, chosen, revealed, starred, onChoose, onReveal, onStar, 
 /* ---------- Coding card ---------- */
 function CodingCard({ item, open, solved, starred, onToggle, onSolved, onStar }) {
   return (
-    <div className="hq-card" data-section="coding">
+    <div className="hq-card">
       <div className="hq-meta">
         <span className="hq-id">{item.id}</span>
-        <span className="hq-chip hq-chip-topic">{item.t}</span>
-        {solved && <span className="hq-chip hq-chip-solved">✓ Solved</span>}
-        <button className={`hq-star ${starred ? "on" : ""}`} onClick={onStar} title="Bookmark">
-          {starred ? "★" : "☆"}
-        </button>
+        <span className="hq-chip">{item.t}</span>
+        {solved && <span className="hq-chip" style={{ color: "var(--ok)" }}>Solved</span>}
+        <button className={`hq-star ${starred ? "on" : ""}`} onClick={onStar} title="Bookmark">★</button>
       </div>
       <h3 className="hq-h3">{item.title}</h3>
       <p className="hq-q">{item.prob}</p>
-      <div className="hq-label">Sample Input / Output</div>
+      <div className="hq-label">Sample</div>
       <pre className="hq-pre">{item.sample}</pre>
       <div className="hq-actions">
-        <button className={`hq-btn ${open ? "" : "pri"}`} onClick={onToggle}>
-          {open ? "🙈 Hide solution" : "👁️ Show solution"}
-        </button>
+        <button className={`hq-btn ${open ? "" : "pri"}`} onClick={onToggle}>{open ? "Hide solution" : "Show solution"}</button>
         <label className="hq-check">
-          <input type="checkbox" checked={!!solved} onChange={onSolved} />
-          I solved this on my own
+          <input type="checkbox" checked={!!solved} onChange={onSolved} /> I solved this on my own
         </label>
       </div>
       {open && (
@@ -892,8 +824,7 @@ export default function HCLQuestionBank() {
 
   const isCoding = section === "coding";
   const pool = isCoding ? CODING : MCQ.filter((m) => m.s === section);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const topics = useMemo(() => ["All", ...Array.from(new Set(pool.map((p) => p.t)))], [section]);
+  const topics = useMemo(() => ["All", ...Array.from(new Set(pool.map((p) => p.t)))], [section]); // eslint-disable-line
 
   const list = pool.filter((item) => {
     if (topic !== "All" && item.t !== topic) return false;
@@ -944,74 +875,64 @@ export default function HCLQuestionBank() {
     setOpenCode(strip(openCode));
   };
 
-  const secMeta = SECTION_META[section];
-
   return (
     <div className="hq">
       <style>{CSS}</style>
-      <div className="hq-banner">
-        <div className="hq-banner-inner">
-          <div className="hq-head">
-            <div>
-              <h1 className="hq-title">🎯 HCL On-Campus Drive 2026 – Question Bank</h1>
-              <p className="hq-sub">Phase I practice · {MCQ.length} MCQs + {CODING.length} coding problems with full solutions</p>
-            </div>
-            <div className="hq-overall">
-              <div className="hq-bar"><div style={{ width: `${(totalDone / totalItems) * 100}%` }} /></div>
-              <div className="hq-small">Overall progress: {totalDone} / {totalItems} completed</div>
-            </div>
+      <div className="hq-wrap">
+        <div className="hq-head">
+          <div>
+            <h1 className="hq-title">HCL On-Campus Drive 2026 – Question Bank</h1>
+            <p className="hq-sub">Phase I practice · {MCQ.length} MCQs + {CODING.length} coding problems with full solutions</p>
+          </div>
+          <div className="hq-overall">
+            <div className="hq-bar"><div style={{ width: `${(totalDone / totalItems) * 100}%` }} /></div>
+            <div className="hq-small">Overall progress: {totalDone} / {totalItems}</div>
           </div>
         </div>
-      </div>
-      <div className="hq-tabs-wrap">
+
         <div className="hq-tabs">
           {SECTIONS.map((s) => {
             const ss = sectionStats(s.key);
-            const meta = SECTION_META[s.key];
             return (
-              <button key={s.key} className={`hq-tab ${section === s.key ? `on-${s.key}` : ""}`} onClick={() => changeSection(s.key)}>
-                <span className="tab-icon">{meta.icon}</span>
-                {s.short}
-                <span className="ct">{ss.attempted}/{ss.total}</span>
+              <button key={s.key} className={`hq-tab ${section === s.key ? "on" : ""}`} onClick={() => changeSection(s.key)}>
+                {s.short}<span className="ct">{ss.attempted}/{ss.total}</span>
               </button>
             );
           })}
         </div>
-      </div>
-      <div className="hq-wrap">
+
         <div className="hq-stats">
-          <div className="hq-stat"><b style={{ color: secMeta.color }}>{st.total}</b><span>{isCoding ? "Problems" : "Questions"}</span></div>
-          <div className="hq-stat"><b style={{ color: "#0ea5e9" }}>{st.attempted}</b><span>{isCoding ? "Solved" : "Attempted"}</span></div>
-          <div className="hq-stat"><b style={{ color: "#059669" }}>{isCoding ? st.total - st.attempted : st.correct}</b><span>{isCoding ? "Remaining" : "Correct"}</span></div>
+          <div className="hq-stat"><b>{st.total}</b><span>{isCoding ? "Problems" : "Questions"}</span></div>
+          <div className="hq-stat"><b>{st.attempted}</b><span>{isCoding ? "Solved" : "Attempted"}</span></div>
+          <div className="hq-stat"><b>{isCoding ? st.total - st.attempted : st.correct}</b><span>{isCoding ? "Remaining" : "Correct"}</span></div>
           <div className="hq-stat">
-            <b style={{ color: isCoding ? "#f59e0b" : accuracy >= 70 ? "#059669" : st.attempted ? "#ef4444" : "#64748b" }}>
+            <b style={{ color: isCoding ? "inherit" : accuracy >= 70 ? "var(--ok)" : st.attempted ? "var(--bad)" : "inherit" }}>
               {isCoding ? `${Math.round((st.attempted / st.total) * 100)}%` : `${accuracy}%`}
             </b>
             <span>{isCoding ? "Completion" : "Accuracy (target 70%)"}</span>
           </div>
         </div>
+
         <div className="hq-tools">
-          <input placeholder="🔍  Search questions, topics, options…" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <input placeholder="Search questions, topics, options…" value={query} onChange={(e) => setQuery(e.target.value)} />
           <select value={topic} onChange={(e) => setTopic(e.target.value)}>
             {topics.map((t) => <option key={t} value={t}>{t === "All" ? "All topics" : t}</option>)}
           </select>
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="all">All questions</option>
+            <option value="all">All</option>
             <option value="unattempted">{isCoding ? "Not solved" : "Unattempted"}</option>
             {!isCoding && <option value="wrong">Wrong answers</option>}
-            <option value="starred">⭐ Bookmarked</option>
+            <option value="starred">Bookmarked</option>
           </select>
-          <button className="hq-btn" onClick={resetSection}>🔁 Reset section</button>
+          <button className="hq-btn" onClick={resetSection}>Reset section</button>
         </div>
+
         {topic !== "All" && TIPS[topic] && (
           <div className="hq-tip"><strong>Key formulas / method:</strong> {TIPS[topic]}</div>
         )}
-        {list.length === 0 && (
-          <div className="hq-empty">
-            <span className="hq-empty-icon">🔍</span>
-            <p className="hq-empty-msg">No items match these filters.</p>
-          </div>
-        )}
+
+        {list.length === 0 && <div className="hq-empty">No items match these filters.</div>}
+
         {!isCoding && list.map((item) => (
           <McqCard
             key={item.id}
@@ -1030,6 +951,7 @@ export default function HCLQuestionBank() {
             }}
           />
         ))}
+
         {isCoding && list.map((item) => (
           <CodingCard
             key={item.id}
