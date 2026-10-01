@@ -218,6 +218,47 @@ export default function Login({ onLogin }) {
   );
 }
 
+const WELCOME_CSS = `
+  .welcome-bar{
+    background:linear-gradient(90deg,#1e1b4b 0%,#4338ca 40%,#7c3aed 75%,#c026d3 100%);
+    padding:0 20px;min-height:64px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;flex-wrap:wrap;
+    box-shadow:0 4px 20px rgba(67,56,202,0.5);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .wb-left{display:flex;align-items:center;gap:14px;}
+  .wb-avatar{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,#818cf8,#c084fc);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:900;color:#fff;
+    border:2.5px solid rgba(255,255,255,0.4);
+    box-shadow:0 0 0 4px rgba(255,255,255,0.12),0 4px 14px rgba(0,0,0,0.3);}
+  .wb-name{font-size:14px;font-weight:800;color:#fff;letter-spacing:0.01em;
+    text-shadow:0 1px 6px rgba(0,0,0,0.25);}
+  .wb-reg{font-size:11px;color:rgba(255,255,255,0.6);
+    margin-top:2px;font-weight:500;letter-spacing:0.05em;}
+  .wb-branch{
+    font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;
+    padding:5px 14px;border-radius:99px;border:2px solid;
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;}
+  .wb-right{display:flex;align-items:center;gap:10px;}
+  .wb-greeting{font-size:12.5px;color:rgba(255,255,255,0.7);
+    font-style:italic;white-space:nowrap;}
+  .logout-btn{
+    display:flex;align-items:center;gap:6px;
+    background:linear-gradient(135deg,#ef4444,#b91c1c);
+    border:none;color:#fff;padding:9px 20px;border-radius:10px;
+    font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+    box-shadow:0 4px 14px rgba(239,68,68,0.5);transition:all .2s;}
+  .logout-btn:hover{
+    box-shadow:0 6px 20px rgba(239,68,68,0.65);transform:translateY(-1px);}
+  @media(max-width:600px){
+    .wb-greeting{display:none;}
+    .welcome-bar{padding:0 12px;min-height:56px;}
+    .wb-avatar{width:38px;height:38px;font-size:13px;}}
+`;
+
 /* ────── Welcome bar (shown above the question bank after login) ────── */
 export function WelcomeBar({ student, onLogout }) {
   const bs = getBranchStyle(student.branch);
@@ -229,29 +270,29 @@ export function WelcomeBar({ student, onLogout }) {
     .join("");
 
   return (
-    <div className="welcome-bar">
-      {/* Left: avatar + name + reg + branch badge */}
-      <div className="wb-left">
-        <div className="wb-avatar">{initials}</div>
-        <div>
-          <div className="wb-name">👋 {student.name}</div>
-          <div className="wb-reg">{student.reg}</div>
+    <>
+      <style>{WELCOME_CSS}</style>
+      <div className="welcome-bar">
+        <div className="wb-left">
+          <div className="wb-avatar">{initials}</div>
+          <div>
+            <div className="wb-name">👋 {student.name}</div>
+            <div className="wb-reg">{student.reg}</div>
+          </div>
+          <span
+            className="wb-branch"
+            style={{ background: bs.bg, borderColor: bs.border, color: bs.text }}
+          >
+            {student.branch}
+          </span>
         </div>
-        <span
-          className="wb-branch"
-          style={{ background: bs.bg, borderColor: bs.border, color: bs.text }}
-        >
-          {student.branch}
-        </span>
+        <div className="wb-right">
+          <span className="wb-greeting">✨ Good luck with your prep!</span>
+          <button className="logout-btn" onClick={onLogout}>
+            🚪 Logout
+          </button>
+        </div>
       </div>
-
-      {/* Right: motivational text + logout */}
-      <div className="wb-right">
-        <span className="wb-greeting">✨ Good luck with your prep!</span>
-        <button className="logout-btn" onClick={onLogout}>
-          🚪 Logout
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
