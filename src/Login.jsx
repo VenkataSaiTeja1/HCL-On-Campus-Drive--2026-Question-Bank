@@ -20,9 +20,7 @@ const BRANCH_COLORS = {
 
 const getBranchStyle = (branch) =>
   BRANCH_COLORS[branch?.toUpperCase()] || {
-    bg: "#f8fafc",
-    border: "#64748b",
-    text: "#334155",
+    bg: "#f8fafc", border: "#64748b", text: "#334155",
   };
 
 const CSS = `
@@ -53,11 +51,12 @@ const CSS = `
     letter-spacing:.06em;color:#64748b;margin-bottom:6px;}
   .login-form .field{margin-bottom:18px;position:relative;}
   .login-form input{width:100%;border:2px solid #e2e8f0;border-radius:12px;padding:13px 14px;
-    font-size:15px;color:#0f172a;background:#f8fafc;outline:none;transition:border-color .2s,box-shadow .2s;}
+    font-size:15px;color:#0f172a;background:#f8fafc;outline:none;
+    transition:border-color .2s,box-shadow .2s;}
   .login-form input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,0.12);background:#fff;}
   .login-form input.error-input{border-color:#ef4444;background:#fff5f5;}
 
-  .login-hint{font-size:12px;color:#94a3b8;margin-top:5px;}
+  .login-hint{font-size:12px;color:#94a3b8;margin-top:5px;cursor:pointer;}
 
   .login-btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;
     font-size:16px;font-weight:700;letter-spacing:.01em;
@@ -70,29 +69,58 @@ const CSS = `
     border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:500;margin-bottom:16px;
     display:flex;align-items:center;gap:8px;}
 
-  .login-divider{border:none;border-top:1px solid #e2e8f0;margin:24px 0;}
+  .login-footer{text-align:center;padding:16px;font-size:12px;
+    color:rgba(255,255,255,0.55);position:relative;z-index:1;}
 
-  .login-info{background:#f0f4ff;border-radius:12px;padding:14px 16px;font-size:13px;color:#4338ca;}
-  .login-info strong{display:block;margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
+  /* ────── Welcome bar ────── */
+  .welcome-bar{
+    background:linear-gradient(90deg,#1e1b4b 0%,#4338ca 40%,#7c3aed 75%,#c026d3 100%);
+    padding:0 20px;min-height:64px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;flex-wrap:wrap;
+    box-shadow:0 4px 20px rgba(67,56,202,0.5);}
 
-  .login-footer{text-align:center;padding:16px;font-size:12px;color:rgba(255,255,255,0.55);
-    position:relative;z-index:1;}
+  .wb-left{display:flex;align-items:center;gap:14px;}
 
-  /* Welcome banner after login */
-  .welcome-bar{background:linear-gradient(90deg,#6366f1,#7c3aed,#c026d3);
-    padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-  .welcome-bar-left{display:flex;align-items:center;gap:12px;}
-  .welcome-bar-name{font-size:14px;font-weight:700;color:#fff;}
-  .welcome-bar-sub{font-size:12px;color:rgba(255,255,255,0.75);}
-  .welcome-badge{font-size:11px;font-weight:700;border-radius:99px;padding:3px 12px;border:1.5px solid rgba(255,255,255,0.4);color:#fff;}
-  .logout-btn{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);
-    color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
-    transition:background .2s;}
-  .logout-btn:hover{background:rgba(255,255,255,0.25);}
+  .wb-avatar{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,#818cf8,#c084fc);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:900;color:#fff;
+    border:2.5px solid rgba(255,255,255,0.4);
+    box-shadow:0 0 0 4px rgba(255,255,255,0.1),0 4px 12px rgba(0,0,0,0.25);}
 
-  @media(max-width:480px){
+  .wb-name{font-size:14px;font-weight:800;color:#fff;
+    letter-spacing:0.01em;text-shadow:0 1px 6px rgba(0,0,0,0.25);}
+  .wb-reg{font-size:11px;color:rgba(255,255,255,0.6);
+    margin-top:2px;font-weight:500;letter-spacing:0.05em;}
+
+  .wb-branch{
+    font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;
+    padding:5px 14px;border-radius:99px;border:2px solid;
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);white-space:nowrap;}
+
+  .wb-right{display:flex;align-items:center;gap:10px;}
+
+  .wb-greeting{
+    font-size:12.5px;color:rgba(255,255,255,0.65);
+    font-style:italic;white-space:nowrap;}
+
+  .logout-btn{
+    display:flex;align-items:center;gap:6px;
+    background:linear-gradient(135deg,#ef4444,#b91c1c);
+    border:none;color:#fff;padding:9px 20px;border-radius:10px;
+    font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+    box-shadow:0 4px 14px rgba(239,68,68,0.5);transition:all .2s;}
+  .logout-btn:hover{
+    box-shadow:0 6px 20px rgba(239,68,68,0.65);transform:translateY(-1px);}
+
+  @media(max-width:600px){
     .login-card{padding:28px 22px;}
     .login-logo h1{font-size:19px;}
+    .wb-greeting{display:none;}
+    .welcome-bar{padding:0 12px;min-height:56px;}
+    .wb-avatar{width:38px;height:38px;font-size:14px;}
   }
 `;
 
@@ -106,13 +134,10 @@ export default function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-
     const reg = regNo.trim().toUpperCase();
     const pass = password.trim().toUpperCase();
-
     if (!reg) { setError("Please enter your Registration Number."); return; }
     if (!pass) { setError("Please enter your Password."); return; }
-
     setLoading(true);
     setTimeout(() => {
       const student = STUDENT_MAP[reg];
@@ -134,9 +159,7 @@ export default function Login({ onLogin }) {
   return (
     <div className="login-root">
       <style>{CSS}</style>
-      <div className="login-bg">
-        <span /><span /><span />
-      </div>
+      <div className="login-bg"><span /><span /><span /></div>
 
       <div className="login-center">
         <div className="login-card">
@@ -147,9 +170,7 @@ export default function Login({ onLogin }) {
           </div>
 
           {error && (
-            <div className="login-error">
-              <span>⚠️</span> {error}
-            </div>
+            <div className="login-error"><span>⚠️</span> {error}</div>
           )}
 
           <form className="login-form" onSubmit={handleSubmit}>
@@ -172,10 +193,14 @@ export default function Login({ onLogin }) {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                className={error && password.trim() && password.trim().toUpperCase() !== regNo.trim().toUpperCase() ? "error-input" : ""}
+                className={
+                  error && password.trim() &&
+                  password.trim().toUpperCase() !== regNo.trim().toUpperCase()
+                    ? "error-input" : ""
+                }
                 autoComplete="current-password"
               />
-              <div className="login-hint" style={{cursor:"pointer"}} onClick={() => setShowPass(p => !p)}>
+              <div className="login-hint" onClick={() => setShowPass(p => !p)}>
                 {showPass ? "🙈 Hide password" : "👁️ Show password"}
               </div>
             </div>
@@ -183,15 +208,6 @@ export default function Login({ onLogin }) {
               {loading ? "Logging in…" : "Login →"}
             </button>
           </form>
-
-          <hr className="login-divider" />
-
-          <div className="login-info">
-            <strong>🔑 Login Instructions</strong>
-            Your <strong>Username</strong> = Registration Number<br />
-            Your <strong>Password</strong> = Registration Number (same)<br />
-            <span style={{color:"#6366f1",fontSize:"12px"}}>Not case-sensitive</span>
-          </div>
         </div>
       </div>
 
@@ -202,24 +218,40 @@ export default function Login({ onLogin }) {
   );
 }
 
-/* ---------- Welcome bar shown inside the app after login ---------- */
+/* ────── Welcome bar (shown above the question bank after login) ────── */
 export function WelcomeBar({ student, onLogout }) {
   const bs = getBranchStyle(student.branch);
+  const initials = student.name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+
   return (
     <div className="welcome-bar">
-      <div className="welcome-bar-left">
+      {/* Left: avatar + name + reg + branch badge */}
+      <div className="wb-left">
+        <div className="wb-avatar">{initials}</div>
         <div>
-          <div className="welcome-bar-name">👋 {student.name}</div>
-          <div className="welcome-bar-sub">{student.reg}</div>
+          <div className="wb-name">👋 {student.name}</div>
+          <div className="wb-reg">{student.reg}</div>
         </div>
         <span
-          className="welcome-badge"
+          className="wb-branch"
           style={{ background: bs.bg, borderColor: bs.border, color: bs.text }}
         >
           {student.branch}
         </span>
       </div>
-      <button className="logout-btn" onClick={onLogout}>Logout</button>
+
+      {/* Right: motivational text + logout */}
+      <div className="wb-right">
+        <span className="wb-greeting">✨ Good luck with your prep!</span>
+        <button className="logout-btn" onClick={onLogout}>
+          🚪 Logout
+        </button>
+      </div>
     </div>
   );
 }
